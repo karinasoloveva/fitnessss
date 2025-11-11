@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор калорий и советы</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      padding: 30px;
+      text-align: center;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .calculator-form {
+      max-width: 650px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .calculator-form h2 {
+      text-align: center;
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-sizing: border-box;
+      transition: border 0.3s;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #2575fc;
+      outline: none;
+    }
+
+    .btn {
+      background-color: #2575fc;
+      color: white;
+      padding: 12px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background-color: #1a5fb8;
+      transform: scale(1.05);
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #e6f7ff;
+      border-radius: 12px;
+      text-align: center;
+      display: none;
+    }
+
+    .advice {
+      margin-top: 30px;
+      padding: 20px;
+      background: #fff4e6;
+      border-radius: 12px;
+      display: none;
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+    .advice h3 {
+      margin-top: 0;
+      font-size: 24px;
+      color: #ff8c00;
+    }
+
+    .advice ul {
+      padding-left: 20px;
+      font-size: 16px;
+    }
+
+    .advice li {
+      margin-bottom: 10px;
+    }
+
+    .advice-toggle {
+      margin-top: 20px;
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+    }
+
+    .advice-toggle:hover {
+      background: #0056b3;
+    }
+
+    @keyframes slideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .calculator-form {
+        padding: 20px;
+      }
+      .btn, .advice-toggle {
+        font-size: 16px;
+      }
+      .result h3 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Калькулятор калорий и советы</h1>
+  </header>
+
+  <div class="calculator-form">
+    <h2>Введите свои данные</h2>
+    <form id="calculator-form">
+      <div class="form-group">
+        <label for="weight">Вес (кг):</label>
+        <input type="number" id="weight" required>
+      </div>
+      <div class="form-group">
+        <label for="height">Рост (см):</label>
+        <input type="number" id="height" required>
+      </div>
+      <div class="form-group">
+        <label for="age">Возраст:</label>
+        <input type="number" id="age" required>
+      </div>
+      <div class="form-group">
+        <label for="gender">Пол:</label>
+        <select id="gender" required>
+          <option value="male">Мужчина</option>
+          <option value="female">Женщина</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="goal">Цель:</label>
+        <select id="goal" required>
+          <option value="lose_weight">Снижение веса</option>
+          <option value="maintain_weight">Поддержание веса</option>
+          <option value="gain_weight">Набор веса</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">Рассчитать калории</button>
+    </form>
+
+    <div id="result" class="result">
+      <h3>Ваши калории в день: <span id="calories-result"></span> ккал</h3>
+    </div>
+
+    <button class="advice-toggle">Нужны советы?</button>
+
+    <div id="advice" class="advice">
+      <h3>Советы для вас:</h3>
+      <ul>
+        <li>Регулярно занимайтесь физической активностью — это помогает обмену веществ.</li>
+        <li>Пейте достаточно воды каждый день (не менее 2 литров).</li>
+        <li>Добавляйте больше овощей и фруктов в рацион.</li>
+        <li>Не пропускайте завтрак — он помогает начать день с энергией.</li>
+        <li>Избегайте сладких напитков и фастфуда.</li>
+        <li>Спите не менее 7–8 часов в сутки.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById('calculator-form');
+      const resultDiv = document.getElementById('result');
+      const caloriesResult = document.getElementById('calories-result');
+      const advice = document.getElementById('advice');
+      const adviceBtn = document.querySelector('.advice-toggle');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const weight = parseFloat(document.getElementById('weight').value);
+        const height = parseFloat(document.getElementById('height').value);
+        const age = parseInt(document.getElementById('age').value);
+        const gender = document.getElementById('gender').value;
+        const goal = document.getElementById('goal').value;
+
+        if (weight <= 0 || height <= 0 || age <= 0 || isNaN(weight) || isNaN(height) || isNaN(age)) {
+          alert('Введите корректные данные!');
+          return;
+        }
+
+        let bmr = gender === "male"
+          ? 10 * weight + 6.25 * height - 5 * age + 5
+          : 10 * weight + 6.25 * height - 5 * age - 161;
+
+        let dailyCalories = bmr;
+        if (goal === "lose_weight") dailyCalories -= 500;
+        if (goal === "gain_weight") dailyCalories += 500;
+
+        resultDiv.style.display = 'block';
+        caloriesResult.textContent = dailyCalories.toFixed(0);
+      });
+
+      adviceBtn.addEventListener('click', function() {
+        if (advice.style.display === 'none' || advice.style.display === '') {
+          advice.style.display = 'block';
+          adviceBtn.textContent = 'Скрыть советы';
+        } else {
+          advice.style.display = 'none';
+          adviceBtn.textContent = 'Нужны советы?';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
