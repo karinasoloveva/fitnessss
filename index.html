@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Онлайн-сервис для похудения — счётчик калорий, рецепты и советы по здоровому образу жизни.">
+    <title>Здоровое похудение</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: #F7FAF7;
+            color: #333;
+        }
+
+        header.hero {
+            background: linear-gradient(135deg, #6ecb8b, #3fa16f);
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+        }
+
+        header.hero h1 {
+            font-size: 42px;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        header.hero p {
+            font-size: 18px;
+            margin-top: 12px;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            margin-top: 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.25s;
+        }
+
+        .btn.primary {
+            background: #ff8f6f;
+            color: white;
+        }
+
+        .btn.primary:hover {
+            background: #e47759;
+            transform: scale(1.05);
+        }
+
+        /* Блок преимущества */
+        .advantages {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .adv-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .adv-card h3 {
+            margin: 10px 0;
+            font-size: 20px;
+        }
+
+        /* Блок рецептов */
+        .recipes-preview {
+            background: #ffffff;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .recipes-preview h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+
+        .recipes-preview .cards {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .recipe-card {
+            background: white;
+            width: 260px;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .recipe-card img {
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #3fa16f;
+            color: white;
+            margin-top: 60px;
+        }
+    </style>
+
+</head>
+<body>
+
+<header class="hero">
+    <h1>Добро пожаловать в мир здорового похудения</h1>
+    <p>Без жёстких диет и стресса — только правильные привычки 💚</p>
+
+    <a href="{{ url_for('advice_and_calculator') }}" class="btn primary">Калькулятор калорий</a>
+    <a href="{{ url_for('recipes') }}" class="btn primary">Полезные рецепты</a>
+
+    {% if session.get('username') %}
+        <p style="margin-top: 15px;">Привет, {{ session['username'] }}! <a href="{{ url_for('logout') }}" style="color: #fff; text-decoration: underline;">Выйти</a></p>
+    {% else %}
+        <p style="margin-top: 15px;"><a href="{{ url_for('register') }}" style="color: #fff; text-decoration: underline;">Зарегистрироваться</a></p>
+    {% endif %}
+</header>
+
+<section class="advantages">
+    <a href="{{ url_for('advice_and_calculator') }}" class="adv-card" style="text-decoration: none; color: inherit;">
+        <h3>Подбор калорий</h3>
+        <p>Точный расчёт под вас</p>
+    </a>
+
+    <a href="{{ url_for('recipes') }}" class="adv-card" style="text-decoration: none; color: inherit;">
+        <h3>Меню & рецепты</h3>
+        <p>Вкусно и полезно</p>
+    </a>
+
+    <a href="{{ url_for('progress') }}" class="adv-card" style="text-decoration: none; color: inherit;">
+        <h3>Прогресс и статистика</h3>
+        <p>Отслеживайте результаты</p>
+    </a>
+
+</section>
+
+
+<section class="recipes-preview">
+    <h2>Популярные рецепты</h2>
+    <div class="cards">
+        <div class="recipe-card">
+            <img src="https://i.imgur.com/W0yVx1N.jpg" alt="">
+            <p>Овсянка с ягодами</p>
+        </div>
+        <div class="recipe-card">
+            <img src="https://i.imgur.com/V2uVYdN.jpg" alt="">
+            <p>Куриное филе с овощами</p>
+        </div>
+        <div class="recipe-card">
+            <img src="https://i.imgur.com/ncObmaH.jpg" alt="">
+            <p>Творожные панкейки</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    © 2025 — Твоя новая здоровая жизнь начинается здесь 💚
+</footer>
+
+</body>
+</html>
