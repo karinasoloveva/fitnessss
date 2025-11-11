@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Прогресс</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .wrapper {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #4285f4;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input, select, textarea {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 12px;
+            font-size: 16px;
+            background-color: #34a853;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #2b8c44;
+        }
+        .stats {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e8f0fe;
+            border-radius: 12px;
+        }
+        .motivation {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff3e0;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            color: #ff6f00;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Прогресс</h1>
+        <form id="progressForm">
+            <input type="date" id="date" required>
+            <input type="number" id="weight" placeholder="Ваш вес (кг)" required>
+            <input type="number" id="steps" placeholder="Пройдено шагов" required>
+            <select id="mood" required>
+                <option value="">Настроение сегодня</option>
+                <option value="Отлично">Отлично</option>
+                <option value="Хорошо">Хорошо</option>
+                <option value="Нейтрально">Нейтрально</option>
+                <option value="Плохо">Плохо</option>
+                <option value="Очень плохо">Очень плохо</option>
+            </select>
+            <textarea id="notes" placeholder="Дополнительные заметки..." rows="3"></textarea>
+            <button type="submit">Сохранить</button>
+        </form>
+
+        <div class="stats" id="stats">
+            <h2>Ваши сегодняшние данные</h2>
+            <p id="showDate"></p>
+            <p id="showWeight"></p>
+            <p id="showSteps"></p>
+            <p id="showCalories"></p>
+            <p id="showMood"></p>
+            <p id="showNotes"></p>
+        </div>
+
+        <div class="motivation" id="motivation">
+            <!-- Мотивация будет подставляться JS -->
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('progressForm');
+        const showDate = document.getElementById('showDate');
+        const showWeight = document.getElementById('showWeight');
+        const showSteps = document.getElementById('showSteps');
+        const showCalories = document.getElementById('showCalories');
+        const showMood = document.getElementById('showMood');
+        const showNotes = document.getElementById('showNotes');
+        const motivation = document.getElementById('motivation');
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+
+            const date = document.getElementById('date').value;
+            const weight = parseFloat(document.getElementById('weight').value);
+            const steps = parseInt(document.getElementById('steps').value);
+            const mood = document.getElementById('mood').value;
+            const notes = document.getElementById('notes').value;
+
+            // Примерный расчёт калорий: 0.04 ккал на 1 шаг
+            const calories = (steps * 0.04).toFixed(0);
+
+
+            showDate.textContent = `Дата: ${date}`;
+            showWeight.textContent = `Вес: ${weight} кг`;
+            showSteps.textContent = `Пройдено шагов: ${steps}`;
+            showCalories.textContent = `Примерно сожжено калорий: ${calories} ккал`;
+            showMood.textContent = `Настроение: ${mood}`;
+            showNotes.textContent = `Заметки: ${notes || 'Нет'}`;
+
+            // Мотивация
+            const phrases = [
+                "Отличная работа! Продолжай в том же духе!",
+                "Каждый шаг приближает тебя к цели!",
+                "Не сдавайся, успех близко!",
+                "Маленькие шаги каждый день дают большие результаты!",
+                "Ты сильнее, чем думаешь!"
+            ];
+            motivation.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+
+            // Очистка формы
+            form.reset();
+        });
+    </script>
+</body>
+</html>
