@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Избранные рецепты</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background:#f4f7fa; color:#333; margin:0; padding:20px;}
+        .recipe-card {background:white; padding:20px; margin-bottom:20px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+        .recipe-card h3 {margin-top:0;}
+        .grams-btns button {margin:5px; padding:5px 10px; border-radius:5px; cursor:pointer;}
+        .remove-btn {margin-top:10px; padding:8px 15px; border:none; border-radius:5px; background:#ff6f61; color:white; cursor:pointer;}
+        .remove-btn:hover {background:#e55a48;}
+        .nav-btn {text-align:center; margin-bottom:20px;}
+        .nav-btn a {padding:10px 20px; background:#34a853; color:white; border-radius:5px; text-decoration:none;}
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">Избранные рецепты</h1>
+    <div class="nav-btn">
+        <a href="{{ url_for('recipes') }}">Назад к рецептам</a>
+    </div>
+
+    {% if favorite_recipes %}
+        {% for recipe in favorite_recipes %}
+            <div class="recipe-card">
+                <h3>{{ recipe }} (<span class="base-calories">150</span> ккал на 100 г)</h3>
+                <p><strong>Ингредиенты:</strong> Ингредиенты рецепта</p>
+                <p><strong>Инструкция:</strong> Инструкция приготовления</p>
+
+                <div class="grams-btns">
+                    <button onclick="showCalories(this, 100)">100 г</button>
+                    <button onclick="showCalories(this, 200)">200 г</button>
+                    <button onclick="showCalories(this, 500)">500 г</button>
+                    <button onclick="showCalories(this, 1000)">1 кг</button>
+                </div>
+                <p class="calories-result"></p>
+
+                <form method="POST" action="{{ url_for('remove_from_favorites') }}">
+                    <input type="hidden" name="recipe_name" value="{{ recipe }}">
+                    <button type="submit" class="remove-btn">Удалить из избранного</button>
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">У вас пока нет избранных рецептов.</p>
+    {% endif %}
+
+    <script>
+        function showCalories(button, grams) {
+            const recipeCard = button.closest('.recipe-card');
+            const baseCalories = parseFloat(recipeCard.querySelector('.base-calories').textContent);
+            const totalCalories = baseCalories * grams / 100;
+            recipeCard.querySelector('.calories-result').textContent = `Калорий: ${totalCalories} ккал`;
+        }
+    </script>
+</body>
+</html>
